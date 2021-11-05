@@ -1,0 +1,10 @@
+quarkus:
+  http:
+    port: 8181
+  shutdown:
+    timeout: 5   #https://quarkus.io/guides/lifecycle#graceful-shutdown
+
+
+config:
+  greeting:
+    message: default-hello11

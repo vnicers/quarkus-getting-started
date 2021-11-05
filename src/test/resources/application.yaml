@@ -1,0 +1,21 @@
+quarkus:
+  http:
+    port: 8181
+
+config:
+  greeting:
+    message: default-hello11
+
+service:
+  config:
+    api:
+      url: http//localhost
+      apiKey: xx
+      secret: yy
+      connectTimeout: 5000
+      socketTimeout: 15000
+      retry:
+        delay: 5000
+        maxDelay: 10000
+        multiplier: 3
+        maxAttempts: 1

@@ -1,0 +1,31 @@
+quarkus:
+  http:
+    port: 8080
+  log:
+    level: DEBUG
+    console:
+      json:
+        zone-id: GMT+8
+        date-format: 'yyyy-MM-dd HH:mm:ss.SSS'
+        exception-output-type: formatted
+    category:
+      "io.quarkus":
+        level: INFO
+
+config:
+  greeting:
+    message: local-hello11
+
+service:
+  config:
+    api:
+      url: http//localhost
+      apiKey: xx
+      secret: yy
+      connectTimeout: 5000
+      socketTimeout: 15000
+      retry:
+        delay: 5000
+        maxDelay: 10000
+        multiplier: 3
+        maxAttempts: 1
