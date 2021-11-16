@@ -2,15 +2,23 @@ quarkus:
   http:
     port: 8080
   log:
-    level: DEBUG
+    level: debug
     console:
-      json:
-        zone-id: GMT+8
-        date-format: 'yyyy-MM-dd HH:mm:ss.SSS'
-        exception-output-type: formatted
+      json: false
+#        zone-id: GMT+8
+#        date-format: 'yyyy-MM-dd HH:mm:ss.SSS'
+#        exception-output-type: formatted
     category:
       "io.quarkus":
         level: INFO
+
+  datasource:
+    db-kind: postgresql
+    devservices:
+      enabled: true
+  hibernate-orm:
+    database:
+      generation: drop-and-create
 
 config:
   greeting:
