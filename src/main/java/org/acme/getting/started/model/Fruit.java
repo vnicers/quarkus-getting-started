@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @EqualsAndHashCode(callSuper = true)

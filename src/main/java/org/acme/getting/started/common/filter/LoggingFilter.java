@@ -1,32 +1,43 @@
 package org.acme.getting.started.common.filter;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
-import org.jboss.logging.Logger;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
+@Slf4j
 @Provider
-public class LoggingFilter implements ContainerRequestFilter {
-
-    private static final Logger LOG = Logger.getLogger(LoggingFilter.class);
-
-    @Context
-    UriInfo info;
+public class LoggingFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
     @Context
     HttpServerRequest request;
 
+    @SneakyThrows
     @Override
     public void filter(ContainerRequestContext context) {
+        log.info(">>> request {} {} from IP {} params:{}", request.method(), request.absoluteURI(), request.remoteAddress(), request.params());
 
-        final String method = context.getMethod();
-        final String path = info.getPath();
-        final String address = request.remoteAddress().toString();
+        if (request.method() == HttpMethod.POST) {
+            String requestBodyStr = IOUtils.toString(context.getEntityStream(), StandardCharsets.UTF_8);
+            log.info(">>> request body {}", requestBodyStr);
+            context.setEntityStream(new ByteArrayInputStream(requestBodyStr.getBytes(StandardCharsets.UTF_8)));
+        }
+    }
 
-        LOG.infof("Request %s %s from IP %s", method, path, address);
+    @Override
+    public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
+        Object entity = containerResponseContext.getEntity();
+        log.info("<<< response body {}", entity);
     }
 }

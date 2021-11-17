@@ -3,8 +3,8 @@ quarkus:
     port: 8181
   shutdown:
     timeout: 5   #https://quarkus.io/guides/lifecycle#graceful-shutdown
-
-
+  swagger-ui:
+    always-include: true
 config:
   greeting:
     message: default-hello11
